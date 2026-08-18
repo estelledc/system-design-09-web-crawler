@@ -33,6 +33,12 @@ Implementation commit `2f165e01b46125d18688a2415f9b843151310917` passed public G
 - Node 26.7.0: 21 passed, 0 skipped; crash/politeness receipt passed; 356 lifecycle operations/second;
 - every job reported zero high-severity-or-greater audit findings.
 
+Documentation-only commit `16bfdd0b8aa88a9233b35d8dcd35f255739cc41f` then exposed a noisy-runner weakness in
+[`32157387338`](https://github.com/estelledc/system-design-09-web-crawler/actions/runs/32157387338): Node 22 and 26 passed,
+while Node 24 passed all 21 tests and the crash/politeness smoke but missed the single-sample 100 operations/second floor.
+The implementation was unchanged from the prior green run, so one shared-runner wall-clock sample was not a stable regression
+gate. The benchmark now permits one fresh-database retry and emits every attempt before failing; two misses still fail the gate.
+
 The smoke receipts observed a real child-process `SIGKILL`, expired-lease recovery with the seed attempt advancing to two,
 zero requests to the robots-disallowed path, four completed canonical URLs backed by two unique byte objects, five fetch
 receipts, a conditional 304, at least 27.248 milliseconds between same-origin page requests, and no raw crawl identity in
@@ -55,4 +61,8 @@ npm ci --ignore-scripts
 npm run check
 ```
 
-The benchmark uses a temporary on-disk SQLite database in WAL/FULL mode, batches 10,000 URL enqueues, and completes 2,000 lease lifecycles. Its floor is a regression tripwire for this runner, not a scenario throughput claim. It excludes every public-network cost.
+The benchmark uses a fresh temporary on-disk SQLite database in WAL/FULL mode, batches 10,000 URL enqueues, and completes
+2,000 lease lifecycles. If the first trial misses the 100 operations/second regression floor, it performs exactly one more
+fresh-database trial, prints both raw results, and passes only if either trial reaches the floor. The bounded retry addresses
+shared-runner wall-clock variance; it is not an average, percentile, sustained-load result, or scenario throughput claim.
+Every public-network cost remains excluded.
