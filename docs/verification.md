@@ -25,7 +25,18 @@ No test is skipped. CI runs the same locked gate on Node 22, 24, and 26.
 
 ## Current receipts
 
-The initial public CI receipt is pending repository publication. Replace this sentence only after the GitHub run is green.
+Implementation commit `2f165e01b46125d18688a2415f9b843151310917` passed public GitHub Actions run
+[`32157244298`](https://github.com/estelledc/system-design-09-web-crawler/actions/runs/32157244298):
+
+- Node 22.23.2: 21 passed, 0 skipped; crash/politeness receipt passed; 339 lifecycle operations/second;
+- Node 24.19.0: 21 passed, 0 skipped; crash/politeness receipt passed; 304 lifecycle operations/second;
+- Node 26.7.0: 21 passed, 0 skipped; crash/politeness receipt passed; 356 lifecycle operations/second;
+- every job reported zero high-severity-or-greater audit findings.
+
+The smoke receipts observed a real child-process `SIGKILL`, expired-lease recovery with the seed attempt advancing to two,
+zero requests to the robots-disallowed path, four completed canonical URLs backed by two unique byte objects, five fetch
+receipts, a conditional 304, at least 27.248 milliseconds between same-origin page requests, and no raw crawl identity in
+captured logs. These are loopback and single-worker observations, not public-web or distributed-system claims.
 
 ## Evidence boundary
 
