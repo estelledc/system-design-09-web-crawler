@@ -39,6 +39,14 @@ while Node 24 passed all 21 tests and the crash/politeness smoke but missed the 
 The implementation was unchanged from the prior green run, so one shared-runner wall-clock sample was not a stable regression
 gate. The benchmark now permits one fresh-database retry and emits every attempt before failing; two misses still fail the gate.
 
+Stabilization commit `b7ab8f01de78406313f299e839c7f8a35480dee8` passed public GitHub Actions run
+[`32157796313`](https://github.com/estelledc/system-design-09-web-crawler/actions/runs/32157796313). Node 22.23.2,
+24.19.0, and 26.7.0 passed 21 tests with 0 skipped, the crash/politeness smoke, and the dependency audit. Their first
+benchmark trials reached 360, 395, and 395 lifecycle operations/second respectively, so no retry was needed. A separate
+local fault injection raised the floor above attainable throughput and reduced the sample to 500 lifecycles; it emitted two
+fresh-database attempts and then failed with `boundedRetryUsed: true`, confirming the bounded failure path without weakening
+the committed 100 operations/second floor.
+
 The smoke receipts observed a real child-process `SIGKILL`, expired-lease recovery with the seed attempt advancing to two,
 zero requests to the robots-disallowed path, four completed canonical URLs backed by two unique byte objects, five fetch
 receipts, a conditional 304, at least 27.248 milliseconds between same-origin page requests, and no raw crawl identity in
