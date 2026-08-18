@@ -1,0 +1,43 @@
+{
+  "name": "system-design-09-web-crawler",
+  "version": "0.1.0",
+  "description": "Evidence-first polite web crawler with durable leases, robots policy, pinned egress, conditional recrawl, and content deduplication",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/main.js",
+    "lint": "node scripts/repo-check.mjs",
+    "test": "node --test --test-reporter=spec",
+    "smoke": "node scripts/runtime-smoke.mjs",
+    "benchmark": "node scripts/benchmark.mjs",
+    "audit": "npm audit --audit-level=high",
+    "check": "npm run lint && npm test && npm run smoke && npm run benchmark && npm run audit"
+  },
+  "dependencies": {
+    "ipaddr.js": "2.5.0",
+    "parse5": "8.0.1",
+    "robots-parser": "3.0.1"
+  },
+  "keywords": [
+    "system-design",
+    "web-crawler",
+    "robots-txt",
+    "url-frontier",
+    "sqlite"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/estelledc/system-design-09-web-crawler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/estelledc/system-design-09-web-crawler/issues"
+  },
+  "homepage": "https://github.com/estelledc/system-design-09-web-crawler#readme",
+  "license": "MIT"
+}
