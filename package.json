@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "ipaddr.js": "2.5.0",
-    "parse5": "8.0.1",
+    "parse5": "8.1.0",
     "robots-parser": "3.0.1"
   },
   "keywords": [
